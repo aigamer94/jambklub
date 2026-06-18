@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#10241f" />
+    <title>Jamb Klub</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="paper-noise" aria-hidden="true"></div>
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Jamb Klub home" data-i18n-aria="brand.home">
+        <span class="brand-mark">J</span>
+        <span>JAMB <i>KLUB</i></span>
+      </a>
+      <div class="top-actions">
+        <div class="language-switch" role="group" aria-label="Language" data-i18n-aria="nav.language">
+          <button type="button" data-language="sr" aria-pressed="false">SR</button>
+          <button type="button" data-language="en" aria-pressed="true">EN</button>
+        </div>
+        <button class="text-button" id="rulesButton" data-i18n="nav.rules">How to play</button>
+        <button class="icon-button" id="soundButton" aria-label="Toggle sound" title="Toggle sound">♪</button>
+        <button class="new-game-button" id="newGameButton" data-i18n="nav.newGame">New game</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div>
+          <p class="eyebrow" data-i18n="hero.eyebrow">SERBIAN DICE CLASSIC</p>
+          <h1><span data-i18n="hero.line1">Roll with a plan.</span><br /><em data-i18n="hero.line2">Score with nerve.</em></h1>
+        </div>
+        <div class="game-meta">
+          <div><span data-i18n="meta.sheet">Sheet</span><strong id="sheetLabel">6 columns</strong></div>
+          <div><span data-i18n="meta.turn">Turn</span><strong id="turnLabel">1 / 78</strong></div>
+          <div><span data-i18n="meta.total">Grand total</span><strong id="grandTotal">0</strong></div>
+        </div>
+      </section>
+
+      <section class="game-layout">
+        <aside class="play-panel">
+          <div class="turn-heading">
+            <div>
+              <p class="eyebrow" data-i18n="play.yourTurn">YOUR TURN</p>
+              <h2 id="rollHeading">Ready to roll?</h2>
+            </div>
+            <span class="roll-pips" id="rollPips" aria-label="Zero of three rolls used"><i></i><i></i><i></i></span>
+          </div>
+
+          <div class="dice-tray" id="diceTray" aria-label="Dice tray" data-i18n-aria="play.diceTray"></div>
+          <p class="tray-tip" id="trayTip">Roll all six dice. Afterward, tap dice to hold them.</p>
+          <button class="roll-button" id="rollButton"><span id="rollButtonText">Roll dice</span><kbd>SPACE</kbd></button>
+
+          <div class="announcement-card hidden" id="announcementCard">
+            <p class="eyebrow" data-i18n="announcement.eyebrow">ANNOUNCEMENT</p>
+            <strong id="announcementTitle" data-i18n="announcement.choose">Choose an announcement</strong>
+            <p id="announcementCopy" data-i18n="announcement.instructions">After your first roll, select an open Najava cell to commit to it.</p>
+            <button id="cancelAnnouncement" class="text-button" data-i18n="announcement.cancel">Cancel announcement</button>
+          </div>
+
+          <div class="turn-message" id="turnMessage" role="status" aria-live="polite">
+            <span>01</span>
+            <p><strong>Start here</strong>Roll the dice, keep what you like, and score one highlighted box.</p>
+          </div>
+        </aside>
+
+        <section class="score-section">
+          <div class="score-toolbar">
+            <div>
+              <p class="eyebrow" data-i18n="score.eyebrow">SCORE SHEET</p>
+              <h2 data-i18n="score.heading">Make every box count.</h2>
+            </div>
+            <div class="legend"><span><i class="available-dot"></i><b data-i18n="score.available">Available</b></span><span><i class="locked-dot"></i><b data-i18n="score.locked">Locked</b></span></div>
+          </div>
+          <div class="score-scroll">
+            <table id="scoreTable">
+              <thead id="scoreHead"></thead>
+              <tbody id="scoreBody"></tbody>
+            </table>
+          </div>
+          <p class="table-hint" data-i18n="score.hint">Select a glowing cell to score it. Hover or focus a column heading to see its rule.</p>
+        </section>
+      </section>
+    </main>
+
+    <dialog id="setupDialog" class="modal">
+      <form method="dialog" id="setupForm">
+        <button class="modal-close" value="cancel" aria-label="Close" data-i18n-aria="common.close">×</button>
+        <p class="eyebrow" data-i18n="setup.eyebrow">NEW GAME</p>
+        <h2 data-i18n="setup.heading">Choose your sheet.</h2>
+        <p data-i18n="setup.copy">More columns mean a longer, more tactical game.</p>
+        <div class="sheet-options">
+          <label><input type="radio" name="columns" value="6" checked /><span><b>6</b><strong data-i18n="setup.classic">Classic</strong><small data-i18n="setup.classicTime">78 turns · about 35 min</small></span></label>
+          <label><input type="radio" name="columns" value="8" /><span><b>8</b><strong data-i18n="setup.extended">Extended</strong><small data-i18n="setup.extendedTime">104 turns · about 50 min</small></span></label>
+          <label><input type="radio" name="columns" value="10" /><span><b>10</b><strong data-i18n="setup.master">Master</strong><small data-i18n="setup.masterTime">130 turns · about 70 min</small></span></label>
+        </div>
+        <button class="primary-button" value="default" id="startGameButton" data-i18n="setup.start">Start game</button>
+      </form>
+    </dialog>
+
+    <dialog id="rulesDialog" class="modal rules-modal">
+      <form method="dialog">
+        <button class="modal-close" value="cancel" aria-label="Close" data-i18n-aria="common.close">×</button>
+        <p class="eyebrow" data-i18n="rules.eyebrow">QUICK RULES</p>
+        <h2 data-i18n="rules.heading">How this Jamb works.</h2>
+        <div class="rules-grid">
+          <article><b>01</b><h3 data-i18n="rules.rollTitle">Roll</h3><p data-i18n="rules.rollCopy">Roll six dice up to three times. Hold any dice between rolls; the best five count.</p></article>
+          <article><b>02</b><h3 data-i18n="rules.scoreTitle">Score</h3><p data-i18n="rules.scoreCopy">Choose one glowing box. Number rows count matching dice. Combination rows add their printed bonuses.</p></article>
+          <article><b>03</b><h3 data-i18n="rules.orderTitle">Respect order</h3><p data-i18n="rules.orderCopy">Arrows constrain the next legal box. Najava must be declared after roll one. Ruka scores roll one only.</p></article>
+          <article><b>04</b><h3 data-i18n="rules.winTitle">Win</h3><p data-i18n="rules.winCopy">Finish every box. Each column totals its upper bonus, MAX–MIN calculation, and combinations.</p></article>
+        </div>
+        <div class="formula-strip"><span><i data-i18n="rules.upper">Upper bonus</i><strong data-i18n="rules.upperFormula">+30 at 60</strong></span><span><i data-i18n="rules.middle">Middle</i><strong data-i18n="rules.middleFormula">(MAX − MIN) × Ones</strong></span><span><i data-i18n="rules.straight">Straight</i><strong>66 / 56 / 46</strong></span></div>
+        <button class="primary-button" value="default" data-i18n="rules.back">Back to the table</button>
+      </form>
+    </dialog>
+
+    <dialog id="finishDialog" class="modal finish-modal">
+      <form method="dialog">
+        <p class="eyebrow" data-i18n="finish.eyebrow">SHEET COMPLETE</p>
+        <h2 id="finishTitle" data-i18n="finish.fine">A fine game.</h2>
+        <div class="final-score" id="finalScore">0</div>
+        <p id="finishCopy" data-i18n="finish.defaultCopy">That is your final Jamb score.</p>
+        <button class="primary-button" value="default" id="playAgainButton" data-i18n="finish.again">Play again</button>
+      </form>
+    </dialog>
+
+    <script src="app.js"></script>
+  </body>
+</html>
